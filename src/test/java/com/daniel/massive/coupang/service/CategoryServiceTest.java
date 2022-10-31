@@ -1,8 +1,10 @@
 package com.daniel.massive.coupang.service;
 
+import com.daniel.massive.coupang.component.CategoryComponent;
 import com.daniel.massive.coupang.response.CoupangResponse;
 import com.daniel.massive.coupang.response.MainMenuResponse;
 import com.daniel.massive.coupang.response.SubMenuResponse;
+import com.daniel.massive.coupang.util.ConnectionUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,6 +16,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,8 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.daniel.massive.common.constant.CommonConstants.MAIN_MENU;
-import static com.daniel.massive.common.constant.CommonConstants.USER_AGENT;
+import static com.daniel.massive.common.constant.CommonConstants.*;
 import static com.daniel.massive.coupang.constant.CoupangConstants.APPLIANCES;
 import static com.daniel.massive.coupang.constant.CoupangConstants.COUPANG_HOME;
 import static org.junit.Assert.*;
@@ -32,17 +34,15 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class CategoryServiceTest {
 
+    @Autowired
+    CategoryComponent categoryComponent;
 
     @Test
     public void getCategoryMenu() {
 
         List<MainMenuResponse> responses = new ArrayList<>();
 
-        Connection connection = Jsoup.connect(COUPANG_HOME)
-                                     .userAgent(USER_AGENT)
-                                     .header("scheme", "https")
-                                     .header("accept-encoding", "gzip, deflate, br")
-                                     .header("accept-language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,es;q=0.6");
+        Connection connection = ConnectionUtil.getConnection(COUPANG_HOME);
 
         try {
             Document document = connection.get();
@@ -60,27 +60,9 @@ public class CategoryServiceTest {
 
                     mainMenuResponse.setLink("empty");
 
-                    Elements subElements = e.select(".second-depth-list > a");
+                    Elements subElements = e.select(SUB_MENU);
 
-                    List<SubMenuResponse> subList = new ArrayList<>();
-
-                    subElements.forEach(e2 -> {
-
-                        SubMenuResponse subMenuResponse = new SubMenuResponse();
-
-                        subMenuResponse.setTitle(e2.text());
-                        subMenuResponse.setLink(e2.attr("abs:href"));
-
-                        JsonObject jsonObject = (JsonObject) JsonParser.parseString(e2.attr("data-log-props"));
-                        JsonObject object = (JsonObject) jsonObject.get("param");
-                        JsonElement jsonElement = object.get("categoryLabel");
-                        subMenuResponse.setClassId(jsonElement.getAsString());
-
-                        subList.add(subMenuResponse);
-
-                    });
-
-                    mainMenuResponse.setSubMenuResponses(subList);
+                    mainMenuResponse.setSubMenuList(categoryComponent.getSubMenuList(subElements));
 
                 } else {
                     mainMenuResponse.setLink(e.select("a").attr("abs:href"));

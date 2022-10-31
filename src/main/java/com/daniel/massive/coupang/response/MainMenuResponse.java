@@ -14,5 +14,5 @@ public class MainMenuResponse {
     public String classId;
     public String title;
     public String link;
-    public List<SubMenuResponse> subMenuResponses;
+    public List<SubMenuResponse> subMenuList;
 }
