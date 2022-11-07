@@ -1,15 +1,8 @@
 package com.daniel.massive.coupang.service;
 
 import com.daniel.massive.coupang.component.CategoryComponent;
-import com.daniel.massive.coupang.response.CoupangResponse;
 import com.daniel.massive.coupang.response.MainMenuResponse;
-import com.daniel.massive.coupang.response.SubMenuResponse;
 import com.daniel.massive.coupang.util.ConnectionUtil;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.daniel.massive.common.constant.CommonConstants.*;
-import static com.daniel.massive.coupang.constant.CoupangConstants.APPLIANCES;
-import static com.daniel.massive.coupang.constant.CoupangConstants.COUPANG_HOME;
+import static com.daniel.massive.coupang.constant.CoupangConstants.*;
 import static org.junit.Assert.*;
 
 
@@ -78,5 +70,34 @@ public class CategoryServiceTest {
 
         System.out.println(responses);
 
+    }
+
+    @Test
+    public void getMenuList() {
+
+        List<MainMenuResponse> response = new ArrayList<>();
+
+        Connection connection = ConnectionUtil.getConnection(WOMANCLOTHE);
+
+        try {
+            Document document = connection.get();
+
+            Elements elements = document.getElementsByClass(BABY_PRODUCT);
+
+            elements.forEach(e -> {
+
+                String id = e.id();
+                String babyLink = e.getElementsByClass("baby-product-link").attr("abs:href");
+
+                System.out.println("상품아이디 : " + id);
+                System.out.println("상품링크 : " + babyLink);
+
+            });
+
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

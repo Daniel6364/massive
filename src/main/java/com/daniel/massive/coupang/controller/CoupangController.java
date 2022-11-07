@@ -1,12 +1,12 @@
 package com.daniel.massive.coupang.controller;
 
-import com.daniel.massive.coupang.response.CoupangResponse;
 import com.daniel.massive.coupang.response.MainMenuResponse;
 import com.daniel.massive.coupang.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +23,13 @@ public class CoupangController {
     public ResponseEntity<List<MainMenuResponse>> getCategoryMenu() {
         return new ResponseEntity<>(categoryService.getCategoryMenu(), HttpStatus.OK);
     }
+
+    @GetMapping("/{classId}")
+    public ResponseEntity<List<MainMenuResponse>> getMenuList(@PathVariable String classId) {
+        return new ResponseEntity<>(categoryService.getMenuList(classId), HttpStatus.OK);
+    }
+
+
 
 
 

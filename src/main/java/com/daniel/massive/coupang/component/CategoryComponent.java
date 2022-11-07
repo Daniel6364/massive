@@ -13,7 +13,6 @@ import java.util.List;
 @Component
 public class CategoryComponent {
 
-
     public List<SubMenuResponse> getSubMenuList(Elements subElements) {
 
         List<SubMenuResponse> subMenuList = new ArrayList<>();
@@ -24,8 +23,6 @@ public class CategoryComponent {
 
             subMenuResponse.setTitle(e2.text());
             subMenuResponse.setLink(e2.attr("abs:href"));
-
-            String test = e2.attr("data-log-props") ;
 
             JsonObject jsonObject = (JsonObject) JsonParser.parseString(e2.attr("data-log-props"));
             JsonObject object = (JsonObject) jsonObject.get("param");

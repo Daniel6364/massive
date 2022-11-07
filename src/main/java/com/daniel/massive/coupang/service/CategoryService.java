@@ -72,4 +72,45 @@ public class CategoryService {
     }
 
 
+    public List<MainMenuResponse> getMenuList(String classId) {
+
+        List<MainMenuResponse> response = new ArrayList<>();
+
+        Connection connection = ConnectionUtil.getConnection(COUPANG_HOME);
+
+        /*try {
+            Document document = connection.get();
+
+            Elements elements = document.select(MAIN_MENU);
+
+            elements.forEach(e -> {
+
+                MainMenuResponse mainMenuResponse = new MainMenuResponse();
+
+                mainMenuResponse.setClassId(e.className());
+                mainMenuResponse.setTitle(e.text().split(" ")[0]);
+
+                if (e.select("a").attr("abs:href").matches("javascript:;")) {
+
+                    mainMenuResponse.setLink("empty");
+
+                    Elements subElements = e.select(SUB_MENU);
+//
+                    mainMenuResponse.setSubMenuList(categoryComponent.getSubMenuList(subElements));
+
+                } else {
+                    mainMenuResponse.setLink(e.select("a").attr("abs:href"));
+                }
+
+                response.add(mainMenuResponse);
+
+            });
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }*/
+
+
+        return response ;
+    }
 }

@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'junit:junit:+'
+    testImplementation 'junit:junit:+'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
@@ -28,6 +28,9 @@ dependencies {
 
     implementation 'org.jsoup:jsoup:+'
     implementation 'com.google.code.gson:gson:+'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:+'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.4.1'
+
 
 }
 
