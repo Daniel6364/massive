@@ -85,15 +85,18 @@ public class CategoryServiceTest {
             Elements elements = document.getElementsByClass(BABY_PRODUCT);
 
             elements.forEach(e -> {
-
                 String id = e.id();
                 String babyLink = e.getElementsByClass("baby-product-link").attr("abs:href");
+                String img = e.getElementsByTag("img").attr("abs:src");
+                String name = e.getElementsByClass("name").html();
 
-                System.out.println("상품아이디 : " + id);
-                System.out.println("상품링크 : " + babyLink);
+                System.out.println(id);
+                System.out.println(babyLink);
+                System.out.println(img);
+                System.out.println(name);
+
 
             });
-
 
 
         } catch (IOException e) {
