@@ -17,4 +17,11 @@ public class ConnectionUtil {
     }
 
 
+    public static String getMenuUrl(String className) {
+
+        String result = "";
+
+        return result;
+
+    }
 }

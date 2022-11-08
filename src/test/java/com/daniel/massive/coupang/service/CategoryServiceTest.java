@@ -1,5 +1,6 @@
 package com.daniel.massive.coupang.service;
 
+import com.daniel.massive.coupang.component.BabyProductComponent;
 import com.daniel.massive.coupang.component.CategoryComponent;
 import com.daniel.massive.coupang.dto.response.BabyProductResponse;
 import com.daniel.massive.coupang.dto.response.MainMenuResponse;
@@ -28,6 +29,9 @@ public class CategoryServiceTest {
     @Autowired
     CategoryComponent categoryComponent;
 
+    @Autowired
+    BabyProductComponent babyProductComponent;
+
     @Test
     public void getCategoryMenu() {
 
@@ -44,6 +48,7 @@ public class CategoryServiceTest {
 
                 MainMenuResponse mainMenuResponse = new MainMenuResponse();
 
+                System.out.println(e.className());
                 mainMenuResponse.setClassId(e.className());
                 mainMenuResponse.setTitle(e.text().split(" ")[0]);
 
@@ -67,43 +72,25 @@ public class CategoryServiceTest {
             throw new RuntimeException(e);
         }
 
-        System.out.println(responses);
+//        System.out.println(responses);
 
     }
 
     @Test
     public void getMenuList() {
 
-        List<BabyProductResponse> response = new ArrayList<>();
+        int pageNum = 1;
 
-        Connection connection = ConnectionUtil.getConnection(APPLIANCES_DIGITAL);
+        List<BabyProductResponse> response ;
+
+        Connection connection = ConnectionUtil.getConnection(APPLIANCES_DIGITAL + PAGE + pageNum);
 
         try {
             Document document = connection.get();
 
             Elements elements = document.getElementsByClass(BABY_PRODUCT);
 
-            elements.forEach(e -> {
-
-                BabyProductResponse babyProductResponse = new BabyProductResponse();
-
-                List<String> arrivalInfo = new ArrayList<>();
-                e.getElementsByClass("arrival-info").select("em").forEach(i -> arrivalInfo.add(i.text()));
-
-                babyProductResponse.setId(e.id());
-                babyProductResponse.setLink(e.getElementsByClass("baby-product-link").attr("abs:href"));
-                babyProductResponse.setImage(e.getElementsByTag("img").attr("abs:src"));
-                babyProductResponse.setName(e.getElementsByClass("name").text());
-                babyProductResponse.setBasePrice(e.getElementsByClass("base-price").text().replaceAll("[^0-9]", ""));
-                babyProductResponse.setDiscountPrice(e.getElementsByClass("price-value").text().replaceAll("[^0-9]", ""));
-                babyProductResponse.setDiscountPercentage(e.getElementsByClass("discount-percentage").text());
-                babyProductResponse.setArrivalInfo(arrivalInfo);
-                babyProductResponse.setRating(e.getElementsByClass("rating").text());
-                babyProductResponse.setRatingTotalCount(e.getElementsByClass("rating-total-count").text().replaceAll("[^0-9]", ""));
-
-                response.add(babyProductResponse);
-
-            });
+            response = babyProductComponent.getMenuList(elements);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
