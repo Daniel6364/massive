@@ -1,6 +1,7 @@
 package com.daniel.massive.coupang.controller;
 
-import com.daniel.massive.coupang.response.MainMenuResponse;
+import com.daniel.massive.coupang.dto.response.BabyProductResponse;
+import com.daniel.massive.coupang.dto.response.MainMenuResponse;
 import com.daniel.massive.coupang.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,14 @@ public class CoupangController {
         return new ResponseEntity<>(categoryService.getCategoryMenu(), HttpStatus.OK);
     }
 
-    @GetMapping("/{classId}")
-    public ResponseEntity<List<MainMenuResponse>> getMenuList(@PathVariable String classId) {
-        return new ResponseEntity<>(categoryService.getMenuList(classId), HttpStatus.OK);
+    /*@GetMapping("/main-menu/{className}")
+    public ResponseEntity<List<MainMenuResponse>> getCategoryMenu(@PathVariable String className) {
+        return new ResponseEntity<>(categoryService.getCategoryMenu(className), HttpStatus.OK);
+    }*/
+
+    @GetMapping("/{className}/{pageNum}")
+    public ResponseEntity<List<BabyProductResponse>> getMenuList(@PathVariable String className, @PathVariable int pageNum) {
+        return new ResponseEntity<>(categoryService.getMenuList(className, pageNum), HttpStatus.OK);
     }
 
 

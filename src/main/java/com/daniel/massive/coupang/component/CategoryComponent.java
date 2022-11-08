@@ -1,6 +1,6 @@
 package com.daniel.massive.coupang.component;
 
-import com.daniel.massive.coupang.response.SubMenuResponse;
+import com.daniel.massive.coupang.dto.response.SubMenuResponse;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

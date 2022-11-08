@@ -1,10 +1,10 @@
 package com.daniel.massive.coupang.service;
 
 import com.daniel.massive.coupang.component.CategoryComponent;
-import com.daniel.massive.coupang.response.MainMenuResponse;
+import com.daniel.massive.coupang.dto.response.BabyProductResponse;
+import com.daniel.massive.coupang.dto.response.MainMenuResponse;
 import com.daniel.massive.coupang.util.ConnectionUtil;
 import org.jsoup.Connection;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.Test;
@@ -17,9 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.daniel.massive.common.constant.CommonConstants.*;
+import static com.daniel.massive.coupang.constant.CommonConstants.*;
 import static com.daniel.massive.coupang.constant.CoupangConstants.*;
-import static org.junit.Assert.*;
 
 
 @RunWith(SpringRunner.class)
@@ -75,9 +74,9 @@ public class CategoryServiceTest {
     @Test
     public void getMenuList() {
 
-        List<MainMenuResponse> response = new ArrayList<>();
+        List<BabyProductResponse> response = new ArrayList<>();
 
-        Connection connection = ConnectionUtil.getConnection(WOMANCLOTHE);
+        Connection connection = ConnectionUtil.getConnection(APPLIANCES_DIGITAL);
 
         try {
             Document document = connection.get();
@@ -85,22 +84,34 @@ public class CategoryServiceTest {
             Elements elements = document.getElementsByClass(BABY_PRODUCT);
 
             elements.forEach(e -> {
-                String id = e.id();
-                String babyLink = e.getElementsByClass("baby-product-link").attr("abs:href");
-                String img = e.getElementsByTag("img").attr("abs:src");
-                String name = e.getElementsByClass("name").html();
 
-                System.out.println(id);
-                System.out.println(babyLink);
-                System.out.println(img);
-                System.out.println(name);
+                BabyProductResponse babyProductResponse = new BabyProductResponse();
 
+                List<String> arrivalInfo = new ArrayList<>();
+                e.getElementsByClass("arrival-info").select("em").forEach(i -> arrivalInfo.add(i.text()));
+
+                babyProductResponse.setId(e.id());
+                babyProductResponse.setLink(e.getElementsByClass("baby-product-link").attr("abs:href"));
+                babyProductResponse.setImage(e.getElementsByTag("img").attr("abs:src"));
+                babyProductResponse.setName(e.getElementsByClass("name").text());
+                babyProductResponse.setBasePrice(e.getElementsByClass("base-price").text().replaceAll("[^0-9]", ""));
+                babyProductResponse.setDiscountPrice(e.getElementsByClass("price-value").text().replaceAll("[^0-9]", ""));
+                babyProductResponse.setDiscountPercentage(e.getElementsByClass("discount-percentage").text());
+                babyProductResponse.setArrivalInfo(arrivalInfo);
+                babyProductResponse.setRating(e.getElementsByClass("rating").text());
+                babyProductResponse.setRatingTotalCount(e.getElementsByClass("rating-total-count").text().replaceAll("[^0-9]", ""));
+
+                response.add(babyProductResponse);
 
             });
-
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        System.out.println(response);
+
     }
+
+
 }

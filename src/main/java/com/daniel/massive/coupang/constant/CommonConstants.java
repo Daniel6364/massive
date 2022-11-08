@@ -1,4 +1,4 @@
-package com.daniel.massive.common.constant;
+package com.daniel.massive.coupang.constant;
 
 public class CommonConstants {
 

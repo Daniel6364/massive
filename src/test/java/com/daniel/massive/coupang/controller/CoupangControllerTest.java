@@ -1,6 +1,6 @@
 package com.daniel.massive.coupang.controller;
 
-import com.daniel.massive.coupang.response.MainMenuResponse;
+import com.daniel.massive.coupang.dto.response.MainMenuResponse;
 import com.daniel.massive.coupang.service.CategoryService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

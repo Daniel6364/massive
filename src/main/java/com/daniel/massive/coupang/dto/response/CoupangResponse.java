@@ -1,4 +1,4 @@
-package com.daniel.massive.coupang.response;
+package com.daniel.massive.coupang.dto.response;
 
 
 

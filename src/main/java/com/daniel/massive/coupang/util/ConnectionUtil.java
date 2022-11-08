@@ -3,7 +3,7 @@ package com.daniel.massive.coupang.util;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
-import static com.daniel.massive.common.constant.CommonConstants.USER_AGENT;
+import static com.daniel.massive.coupang.constant.CommonConstants.USER_AGENT;
 import static com.daniel.massive.coupang.constant.CoupangConstants.COUPANG_HOME;
 
 public class ConnectionUtil {
