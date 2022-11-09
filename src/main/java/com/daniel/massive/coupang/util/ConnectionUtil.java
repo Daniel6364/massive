@@ -4,7 +4,6 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 
 import static com.daniel.massive.coupang.constant.CommonConstants.USER_AGENT;
-import static com.daniel.massive.coupang.constant.CoupangConstants.COUPANG_HOME;
 
 public class ConnectionUtil {
 
@@ -16,12 +15,4 @@ public class ConnectionUtil {
                     .header("accept-language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,es;q=0.6");
     }
 
-
-    public static String getMenuUrl(String className) {
-
-        String result = "";
-
-        return result;
-
-    }
 }

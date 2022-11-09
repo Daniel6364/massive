@@ -2,6 +2,7 @@ package com.daniel.massive.coupang.service;
 
 import com.daniel.massive.coupang.component.BabyProductComponent;
 import com.daniel.massive.coupang.component.CategoryComponent;
+import com.daniel.massive.coupang.constant.enums.SearchMenuUrl;
 import com.daniel.massive.coupang.dto.response.BabyProductResponse;
 import com.daniel.massive.coupang.dto.response.MainMenuResponse;
 import com.daniel.massive.coupang.util.ConnectionUtil;
@@ -16,9 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.daniel.massive.coupang.constant.CommonConstants.*;
-import static com.daniel.massive.coupang.constant.CoupangConstants.*;
-import static com.daniel.massive.coupang.constant.CoupangConstants.BABY_PRODUCT;
+import static com.daniel.massive.coupang.constant.TagValueConstants.*;
+import static com.daniel.massive.coupang.constant.MenuUrlConstants.*;
 
 @Slf4j
 @Service
@@ -77,9 +77,9 @@ public class CategoryService {
 
         List<BabyProductResponse> response;
 
-        String MENU_URL = ConnectionUtil.getMenuUrl(className);
+        final String MENU_URL = SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
 
-        Connection connection = ConnectionUtil.getConnection(APPLIANCES_DIGITAL + PAGE + pageNum);
+        Connection connection = ConnectionUtil.getConnection(MENU_URL + PAGE + pageNum);
 
         try {
             Document document = connection.get();

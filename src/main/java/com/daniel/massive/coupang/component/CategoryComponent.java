@@ -29,6 +29,9 @@ public class CategoryComponent {
             JsonElement jsonElement = object.get("categoryLabel");
             subMenuResponse.setClassId(jsonElement.getAsString());
 
+            System.out.println(subMenuResponse.getClassId());
+            System.out.println(subMenuResponse.getLink());
+
             subMenuList.add(subMenuResponse);
 
         });

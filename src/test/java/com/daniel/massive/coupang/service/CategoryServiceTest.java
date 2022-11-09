@@ -2,6 +2,7 @@ package com.daniel.massive.coupang.service;
 
 import com.daniel.massive.coupang.component.BabyProductComponent;
 import com.daniel.massive.coupang.component.CategoryComponent;
+import com.daniel.massive.coupang.constant.enums.SearchMenuUrl;
 import com.daniel.massive.coupang.dto.response.BabyProductResponse;
 import com.daniel.massive.coupang.dto.response.MainMenuResponse;
 import com.daniel.massive.coupang.util.ConnectionUtil;
@@ -18,8 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.daniel.massive.coupang.constant.CommonConstants.*;
-import static com.daniel.massive.coupang.constant.CoupangConstants.*;
+import static com.daniel.massive.coupang.constant.MenuUrlConstants.*;
+import static com.daniel.massive.coupang.constant.TagValueConstants.*;
 
 
 @RunWith(SpringRunner.class)
@@ -48,10 +49,12 @@ public class CategoryServiceTest {
 
                 MainMenuResponse mainMenuResponse = new MainMenuResponse();
 
-                System.out.println(e.className());
                 mainMenuResponse.setClassId(e.className());
                 mainMenuResponse.setTitle(e.text().split(" ")[0]);
 
+                System.out.println(mainMenuResponse.getClassId());
+
+                // TODO : refactoring
                 if (e.select("a").attr("abs:href").matches("javascript:;")) {
 
                     mainMenuResponse.setLink("empty");
@@ -60,8 +63,11 @@ public class CategoryServiceTest {
 
                     mainMenuResponse.setSubMenuList(categoryComponent.getSubMenuList(subElements));
 
+
                 } else {
                     mainMenuResponse.setLink(e.select("a").attr("abs:href"));
+
+                    System.out.println(mainMenuResponse.getLink());
                 }
 
                 responses.add(mainMenuResponse);
@@ -80,10 +86,13 @@ public class CategoryServiceTest {
     public void getMenuList() {
 
         int pageNum = 1;
+        String className = "woman-clothe";
 
         List<BabyProductResponse> response ;
 
-        Connection connection = ConnectionUtil.getConnection(APPLIANCES_DIGITAL + PAGE + pageNum);
+        final String MENU_URL = SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
+
+        Connection connection = ConnectionUtil.getConnection(MENU_URL + PAGE + pageNum);
 
         try {
             Document document = connection.get();
