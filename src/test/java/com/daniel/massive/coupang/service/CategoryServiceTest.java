@@ -86,7 +86,7 @@ public class CategoryServiceTest {
     public void getMenuList() {
 
         int pageNum = 1;
-        String className = "woman-clothe";
+        String className = "womanclothe";
 
         List<BabyProductResponse> response ;
 
@@ -96,6 +96,9 @@ public class CategoryServiceTest {
 
         try {
             Document document = connection.get();
+
+            String totalPageCount = document.getElementById("product-list-paging").attr("data-total");
+            System.out.println(totalPageCount);
 
             Elements elements = document.getElementsByClass(BABY_PRODUCT);
 

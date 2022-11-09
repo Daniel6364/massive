@@ -73,11 +73,12 @@ public class CategoryService {
 
     }
 
-    public List<BabyProductResponse> getMenuList(String className, int pageNum) {
+    public List<BabyProductResponse> getMenuListByPage(String className, int pageNum) {
 
         List<BabyProductResponse> response;
 
-        final String MENU_URL = SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
+        final String MENU_URL =
+                SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
 
         Connection connection = ConnectionUtil.getConnection(MENU_URL + PAGE + pageNum);
 
@@ -95,4 +96,48 @@ public class CategoryService {
         return response ;
     }
 
+    public List<BabyProductResponse> getMenuListAll(String className, int totalPageNum) {
+
+        List<BabyProductResponse> response;
+
+        final String MENU_URL =
+                SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
+
+        int pageNum = 1;
+        Connection connection = ConnectionUtil.getConnection(MENU_URL + PAGE + pageNum);
+
+        try {
+            Document document = connection.get();
+
+            Elements elements = document.getElementsByClass(BABY_PRODUCT);
+
+            response = babyProductComponent.getMenuList(elements);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return response ;
+    }
+
+    public int getTotalPageNum(String className) {
+
+        int totalPageCount = 0;
+
+        final String MENU_URL =
+                SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
+
+        int pageNum = 1;
+        Connection connection = ConnectionUtil.getConnection(MENU_URL + PAGE + pageNum);
+
+        try {
+            Document document = connection.get();
+
+            totalPageCount = Integer.parseInt(document.getElementById("product-list-paging").attr("data-total"));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return totalPageCount;
+    }
 }

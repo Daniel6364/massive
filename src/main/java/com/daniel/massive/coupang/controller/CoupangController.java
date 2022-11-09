@@ -25,15 +25,17 @@ public class CoupangController {
         return new ResponseEntity<>(categoryService.getCategoryMenu(), HttpStatus.OK);
     }
 
-    /*@GetMapping("/main-menu/{className}")
-    public ResponseEntity<List<MainMenuResponse>> getCategoryMenu(@PathVariable String className) {
-        return new ResponseEntity<>(categoryService.getCategoryMenu(className), HttpStatus.OK);
-    }*/
-
     @GetMapping("/{className}/{pageNum}")
-    public ResponseEntity<List<BabyProductResponse>> getMenuList(@PathVariable String className, @PathVariable int pageNum) {
-        return new ResponseEntity<>(categoryService.getMenuList(className, pageNum), HttpStatus.OK);
+    public ResponseEntity<List<BabyProductResponse>> getMenuListByPage(@PathVariable String className, @PathVariable int pageNum) {
+        return new ResponseEntity<>(categoryService.getMenuListByPage(className, pageNum), HttpStatus.OK);
     }
+
+    @GetMapping("/{className}")
+    public ResponseEntity<List<BabyProductResponse>> getMenuListAll(@PathVariable String className) {
+        int totalPageNum = categoryService.getTotalPageNum(className);
+        return new ResponseEntity<>(categoryService.getMenuListAll(className, totalPageNum), HttpStatus.OK);
+    }
+
 
 
 
