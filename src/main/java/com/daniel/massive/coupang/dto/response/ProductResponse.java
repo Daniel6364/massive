@@ -22,5 +22,6 @@ public class ProductResponse {
     private String rating;
     private String ratingTotalCount;
 
+    private String arrivalDate;
 
 }

@@ -16,7 +16,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.daniel.massive.coupang.constant.MenuUrlConstants.*;
@@ -85,12 +89,12 @@ public class CategoryServiceTest {
     @Test
     public void getMenuListByPage() {
 
-        int pageNum = 3;
+        int pageNum = 1;
         String className = "womanclothe";
 
         ////////
 
-        List<ProductResponse> response ;
+        List<ProductResponse> response;
 
         final String MENU_URL =
                 SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
@@ -108,7 +112,7 @@ public class CategoryServiceTest {
             throw new RuntimeException(e);
         }
 
-        System.out.println(response.size());
+//        System.out.println(response.size());
         System.out.println(response);
 
     }
@@ -128,8 +132,36 @@ public class CategoryServiceTest {
 
         List<ProductResponse> response = productComponent.getMenuListAll(MENU_URL, totalPageNum);
 
-        System.out.println(response.size());
+//        System.out.println(response.size());
         System.out.println(response);
+
+    }
+
+
+    @Test
+    public void localDateTest() {
+
+        String[] arrivalDateArr = new String[2];
+        arrivalDateArr[0] = "01";
+        arrivalDateArr[1] = "11";
+
+        System.out.println(Arrays.toString(arrivalDateArr));
+
+        //////////
+
+//        String presentDate = LocalDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        int year = LocalDateTime.now(ZoneId.of("Asia/Seoul")).getYear();
+        int presentMonth = LocalDateTime.now(ZoneId.of("Asia/Seoul")).getMonthValue();
+
+        int arrivalMonth = Integer.parseInt(arrivalDateArr[0]);
+        int arrivalDay = Integer.parseInt(arrivalDateArr[1]);
+
+        if (arrivalMonth < presentMonth) year++;
+        LocalDateTime arrivalDataTime = LocalDateTime.of(year, arrivalMonth, arrivalDay, 0, 0);
+
+        String arrivalDate = arrivalDataTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        System.out.println(arrivalDate);
 
     }
 }
