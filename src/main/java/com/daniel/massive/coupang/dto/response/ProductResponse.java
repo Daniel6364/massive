@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class BabyProductResponse {
+public class ProductResponse {
 
     private String id;
     private String link;

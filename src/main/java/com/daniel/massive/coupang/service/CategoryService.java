@@ -1,9 +1,9 @@
 package com.daniel.massive.coupang.service;
 
-import com.daniel.massive.coupang.component.BabyProductComponent;
+import com.daniel.massive.coupang.component.ProductComponent;
 import com.daniel.massive.coupang.component.CategoryComponent;
 import com.daniel.massive.coupang.constant.enums.SearchMenuUrl;
-import com.daniel.massive.coupang.dto.response.BabyProductResponse;
+import com.daniel.massive.coupang.dto.response.ProductResponse;
 import com.daniel.massive.coupang.dto.response.MainMenuResponse;
 import com.daniel.massive.coupang.util.ConnectionUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class CategoryService {
     CategoryComponent categoryComponent;
 
     @Autowired
-    BabyProductComponent babyProductComponent;
+    ProductComponent productComponent;
 
     public List<MainMenuResponse> getCategoryMenu() {
 
@@ -73,9 +73,9 @@ public class CategoryService {
 
     }
 
-    public List<BabyProductResponse> getMenuListByPage(String className, int pageNum) {
+    public List<ProductResponse> getMenuListByPage(String className, int pageNum) {
 
-        List<BabyProductResponse> response;
+        List<ProductResponse> response;
 
         final String MENU_URL =
                 SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
@@ -85,9 +85,9 @@ public class CategoryService {
         try {
             Document document = connection.get();
 
-            Elements elements = document.getElementsByClass(BABY_PRODUCT);
+            Elements elements = document.getElementsByClass(PRODUCTS);
 
-            response = babyProductComponent.getMenuList(elements);
+            response = productComponent.getMenuList(elements);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -96,48 +96,17 @@ public class CategoryService {
         return response ;
     }
 
-    public List<BabyProductResponse> getMenuListAll(String className, int totalPageNum) {
-
-        List<BabyProductResponse> response;
+    public List<ProductResponse> getMenuListAll(String className) {
 
         final String MENU_URL =
                 SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
 
-        int pageNum = 1;
-        Connection connection = ConnectionUtil.getConnection(MENU_URL + PAGE + pageNum);
+        int totalPageNum = categoryComponent.getTotalPageNum(className);
 
-        try {
-            Document document = connection.get();
+        List<ProductResponse> response = productComponent.getMenuListAll(MENU_URL, totalPageNum);
 
-            Elements elements = document.getElementsByClass(BABY_PRODUCT);
-
-            response = babyProductComponent.getMenuList(elements);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return response ;
+        return response;
     }
 
-    public int getTotalPageNum(String className) {
 
-        int totalPageCount = 0;
-
-        final String MENU_URL =
-                SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
-
-        int pageNum = 1;
-        Connection connection = ConnectionUtil.getConnection(MENU_URL + PAGE + pageNum);
-
-        try {
-            Document document = connection.get();
-
-            totalPageCount = Integer.parseInt(document.getElementById("product-list-paging").attr("data-total"));
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return totalPageCount;
-    }
 }
