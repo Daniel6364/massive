@@ -122,7 +122,7 @@ public class CategoryServiceTest {
     public void getMenuListAll() {
 
         String className = "womanclothe";
-        String searchDate = "20221118";
+        String searchDate = "20221115";
         //////////
 
         final String MENU_URL =
@@ -198,9 +198,6 @@ public class CategoryServiceTest {
                                                          Integer.parseInt(searchDate.substring(6)), 0, 0, 0);
 
         System.out.println(arrivalDateTime.compareTo(searchDateTime));
-        System.out.println(arrivalDateTime.isAfter(searchDateTime));
-        System.out.println(arrivalDateTime.isBefore(searchDateTime));
-
 
 
 

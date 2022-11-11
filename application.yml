@@ -1,8 +1,16 @@
+#from company
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://127.0.0.1:5432/postgres
+#    username : postgres
+#    password : postgres
+
+#from home
 spring:
   datasource:
-    url: jdbc:postgresql://127.0.0.1:5432/postgres
+    url: jdbc:postgresql://localhost:55000/postgres
     username : postgres
-    password : postgres
+    password : postgrespw
 
   jpa:
     hibernate:

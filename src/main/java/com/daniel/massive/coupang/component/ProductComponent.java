@@ -133,15 +133,17 @@ public class ProductComponent {
             ProductResponse productResponse = new ProductResponse();
 
             List<String> arrivalInfo = new ArrayList<>();
+
             e.getElementsByClass("arrival-info").select("em").forEach(i -> arrivalInfo.add(i.text()));
 
             if (!arrivalInfo.isEmpty()) {
                 if (compareDate(getArrivalDate(arrivalInfo), build.getSearchDate()) >= 0) {
-                    System.out.println(arrivalInfo);
+
                     setProductResponse(e, productResponse, arrivalInfo);
+
+                    build.getResponse().add(productResponse);
                 }
             }
-            build.getResponse().add(productResponse);
         });
     }
 
@@ -154,8 +156,6 @@ public class ProductComponent {
         LocalDateTime searchDateTime = LocalDateTime.of(Integer.parseInt(searchDate.substring(0, 4)),
                                                         Integer.parseInt(searchDate.substring(4, 6)),
                                                         Integer.parseInt(searchDate.substring(6)), 0, 0, 0);
-
-        System.out.println(arrivalDateTime.compareTo(searchDateTime));
 
         return arrivalDateTime.compareTo(searchDateTime);
     }
@@ -171,8 +171,6 @@ public class ProductComponent {
     }
 
     public List<ProductResponse> getMenuListAll(String MENU_URL, int totalPageNum) {
-
-        System.out.println("=================// getMenuListAll : 2params");
 
         List<ProductResponse> response = new ArrayList<>();
 
@@ -195,10 +193,6 @@ public class ProductComponent {
     }
 
     public List<ProductResponse> getMenuListAll(String MENU_URL, int totalPageNum, String searchDate) {
-
-        System.out.println("=================// getMenuListAll : 3params");
-        System.out.println("=================// searchDate : " + searchDate);
-
 
         List<ProductResponse> response = new ArrayList<>();
 
