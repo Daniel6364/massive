@@ -112,7 +112,7 @@ public class CategoryServiceTest {
             throw new RuntimeException(e);
         }
 
-//        System.out.println(response.size());
+        System.out.println(response.size());
         System.out.println(response);
 
     }
@@ -122,7 +122,7 @@ public class CategoryServiceTest {
     public void getMenuListAll() {
 
         String className = "womanclothe";
-
+        String searchDate = "20221118";
         //////////
 
         final String MENU_URL =
@@ -130,13 +130,15 @@ public class CategoryServiceTest {
 
         int totalPageNum = categoryComponent.getTotalPageNum(className);
 
-        List<ProductResponse> response = productComponent.getMenuListAll(MENU_URL, totalPageNum);
+//        List<ProductResponse> response = productComponent.getMenuListAll(MENU_URL, totalPageNum);
+        List<ProductResponse> response = productComponent.getMenuListAll(MENU_URL, totalPageNum, searchDate);
 
-//        System.out.println(response.size());
+
+        System.out.println(response.size());
         System.out.println(response);
 
-    }
 
+    }
 
     @Test
     public void localDateTest() {
@@ -163,5 +165,47 @@ public class CategoryServiceTest {
         String arrivalDate = arrivalDataTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         System.out.println(arrivalDate);
 
+        String tmpDate = "20221111";
+        String tmpY = tmpDate.substring(0, 4);
+        String tmpM = tmpDate.substring(4, 6);
+        String tmpD = tmpDate.substring(6);
+
+        System.out.println(tmpY + tmpM + tmpD);
+
+
     }
+
+    @Test
+    public void compareDateTest() {
+
+        String arrivalDate = "20221115";
+        String searchDate = "20221118";
+
+        arrivalDate.substring(0, 4);
+        arrivalDate.substring(4, 6);
+        arrivalDate.substring(6);
+
+        LocalDateTime arrivalDateTime = LocalDateTime.of(Integer.parseInt(arrivalDate.substring(0, 4)),
+                                                         Integer.parseInt(arrivalDate.substring(4, 6)),
+                                                         Integer.parseInt(arrivalDate.substring(6)), 0, 0, 0);
+
+        searchDate.substring(0, 4);
+        searchDate.substring(4, 6);
+        searchDate.substring(6);
+
+        LocalDateTime searchDateTime = LocalDateTime.of(Integer.parseInt(searchDate.substring(0, 4)),
+                                                         Integer.parseInt(searchDate.substring(4, 6)),
+                                                         Integer.parseInt(searchDate.substring(6)), 0, 0, 0);
+
+        System.out.println(arrivalDateTime.compareTo(searchDateTime));
+        System.out.println(arrivalDateTime.isAfter(searchDateTime));
+        System.out.println(arrivalDateTime.isBefore(searchDateTime));
+
+
+
+
+
+    }
+
+
 }

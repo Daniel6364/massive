@@ -109,4 +109,17 @@ public class CategoryService {
     }
 
 
+    public List<ProductResponse> getMenuListAll(String className, String searchDate) {
+
+        final String MENU_URL =
+                SearchMenuUrl.valueOf(className.toLowerCase().replaceAll("[^a-zA-Z]", "")).getUrl();
+
+        int totalPageNum = categoryComponent.getTotalPageNum(className);
+
+        List<ProductResponse> response = productComponent.getMenuListAll(MENU_URL, totalPageNum, searchDate);
+
+        return response;
+    }
+
+
 }

@@ -35,7 +35,10 @@ public class CoupangController {
         return new ResponseEntity<>(categoryService.getMenuListAll(className), HttpStatus.OK);
     }
 
-
+    @GetMapping("/{className}/{searchDate}")
+    public ResponseEntity<List<ProductResponse>> getSearchByArrivalDate(@PathVariable String className, @PathVariable String searchDate) {
+        return new ResponseEntity<>(categoryService.getMenuListAll(className, searchDate), HttpStatus.OK);
+    }
 
 
 
